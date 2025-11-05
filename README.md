@@ -1,15 +1,53 @@
 # Foundry Agent Call Python
 
-Python development project with modern tooling and best practices.
+A Python client for calling Azure AI Foundry agents with default Azure credentials.
 
 ## Development Setup
 
-This project uses a dev container for consistent development environments. To get started:
+### Using Dev Container (Recommended)
 
-1. Install [Docker](https://www.docker.com/products/docker-desktop) and [VS Code](https://code.visualstudio.com/)
-2. Install the [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
-3. Open this folder in VS Code
-4. When prompted, click "Reopen in Container" (or run the command "Dev Containers: Reopen in Container")
+This project uses a dev container for consistent development environments:
+
+1. **Open in Dev Container**
+   - Install [Docker](https://www.docker.com/products/docker-desktop) and [VS Code](https://code.visualstudio.com/)
+   - Install the [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
+   - Open this folder in VS Code
+   - When prompted, click "Reopen in Container" (or run the command "Dev Containers: Reopen in Container")
+
+2. **Install Dependencies** (inside the dev container)
+
+```bash
+pip install -r requirements.txt
+```
+
+3. **Configure Azure Connection**
+
+Create a `config.json` file with your Azure AI Foundry endpoint and agent ID:
+
+```json
+{
+  "endpoint": "https://YOUR-PROJECT.services.ai.azure.com/api/projects/YOUR-PROJECT-NAME",
+  "agent_id": "asst_YOUR_AGENT_ID"
+}
+```
+
+4. **Authenticate with Azure**
+
+Use device code flow (recommended for dev containers):
+
+```bash
+az login --use-device-code
+```
+
+5. **Run the Example**
+
+```bash
+python ./example.py
+```
+
+The example provides two options:
+- **Option 1**: Simple chat (single message)
+- **Option 2**: Multi-turn conversation
 
 ## Development Tools
 
@@ -62,11 +100,13 @@ mypy .
 
 ```
 .
-├── .devcontainer/          # Dev container configuration
-├── src/                    # Source code
-├── tests/                  # Test files
-├── pyproject.toml         # Project configuration
-└── README.md              # This file
+├── .devcontainer/              # Dev container configuration
+├── foundry_agent_caller.py     # Main client library
+├── example.py                  # Example usage
+├── config.json                 # Azure configuration (create this)
+├── requirements.txt            # Python dependencies
+├── pyproject.toml             # Project configuration
+└── README.md                  # This file
 ```
 
 ## VS Code Integration
