@@ -7,10 +7,9 @@ using Azure Default Credentials for authentication.
 
 import json
 from pathlib import Path
-from typing import Optional
 
-from azure.ai.projects import AIProjectClient
 from azure.ai.agents.models import AgentThread, ListSortOrder
+from azure.ai.projects import AIProjectClient
 from azure.identity import DefaultAzureCredential
 
 
@@ -57,9 +56,7 @@ class FoundryAgentCaller:
         print(f"Created thread with ID: {thread.id}")
         return thread
 
-    def send_message(
-        self, thread_id: str, message: str, agent_id: Optional[str] = None
-    ) -> str:
+    def send_message(self, thread_id: str, message: str, agent_id: str | None = None) -> str:
         """
         Send a message to the agent in a thread.
 
@@ -72,21 +69,14 @@ class FoundryAgentCaller:
             str: The agent's response text
         """
         # Create message in thread
-        self.client.agents.messages.create(
-            thread_id=thread_id,
-            role="user",
-            content=message
-        )
+        self.client.agents.messages.create(thread_id=thread_id, role="user", content=message)
         print(f"Sent message: {message}")
 
         # Run the agent
         if agent_id is None:
             agent_id = self.agent_id
 
-        run = self.client.agents.runs.create_and_process(
-            thread_id=thread_id,
-            agent_id=agent_id
-        )
+        run = self.client.agents.runs.create_and_process(thread_id=thread_id, agent_id=agent_id)
         print(f"Run completed with status: {run.status}")
 
         if run.status == "failed":
@@ -94,8 +84,7 @@ class FoundryAgentCaller:
 
         # Get messages
         messages = self.client.agents.messages.list(
-            thread_id=thread_id,
-            order=ListSortOrder.ASCENDING
+            thread_id=thread_id, order=ListSortOrder.ASCENDING
         )
 
         # Return the latest assistant message text
@@ -105,7 +94,7 @@ class FoundryAgentCaller:
 
         raise RuntimeError("No assistant response found")
 
-    def chat(self, user_message: str, thread_id: Optional[str] = None) -> str:
+    def chat(self, user_message: str, thread_id: str | None = None) -> str:
         """
         Simple chat interface - send a message and get a response.
 

@@ -30,10 +30,7 @@ def multi_turn_conversation_example():
     thread = caller.create_thread()
 
     # Have a conversation
-    questions = [
-        "Show me the EPS from the file.",
-        "Show me the adjusted EPS only now."        
-    ]
+    questions = ["Show me the EPS from the file.", "Show me the adjusted EPS only now."]
 
     for question in questions:
         print(f"\n>>> User: {question}")
