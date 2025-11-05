@@ -1,0 +1,4 @@
+{
+  "endpoint": "https://YOUR-PROJECT-NAME.services.ai.azure.com/api/projects/YOUR-PROJECT-NAME",
+  "agent_id": "asst_YOUR_AGENT_ID"
+}
